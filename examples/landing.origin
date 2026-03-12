@@ -1,0 +1,88 @@
+// Origin Script Landing Page Example
+
+page Landing {
+
+  title "Origin — The Modern Web Language"
+  description "Build websites faster with less code."
+
+  nav {
+    link "Home" -> "#hero"
+    link "Features" -> "#features"
+    link "Pricing" -> "#pricing"
+    link "Contact" -> "#contact"
+    button "Get Started" -> "#hero"
+  } heading "Build the web, simplified."
+    text "Origin lets you create production-ready websites with a single, clean language. No frameworks. No complexity."
+    button "Start Building" -> "#features"
+    button "View Docs" -> "/docs" outline
+  }
+
+  section features {
+    style {
+      padding "large"
+      align "center"
+    }
+
+    heading "Why Origin" grid 3 {
+      card speed {
+        heading "Fast Compilation"
+        text "Compiles to optimized HTML, CSS and JavaScript in milliseconds."
+      }
+      card simple {
+        heading "Zero Config"
+        text "No bundlers. No configuration files. Just write and build."
+      }
+      card sense {
+        heading "Origin Sense"
+        text "Automatic accessibility, SEO, and performance optimization built into the compiler."
+      }
+    }
+  }
+  section pricing {
+    style {
+      background "muted"
+      padding "large"
+      align "center"
+    }
+
+    heading "Pricing"
+    text "Origin is free and open source. Forever."
+
+    grid 3 {
+      card {
+        heading "Starter"
+        text "Free for personal projects."
+        button "Download" -> "/download"
+      } card {
+        heading "Pro"
+        text "Advanced features for teams."
+        button "Contact Us" -> "#contact"
+      }
+      card {
+        heading "Enterprise"
+        text "Custom deployment and support."
+        button "Get in Touch" -> "#contact"
+      }
+    }
+  }
+
+  section contact {
+    style {
+      padding "large"
+    } heading "Contact"
+    text "Have questions? Reach out."
+
+    form contact {
+      input name "Your name"
+      input email "Your email" email
+      input message "Your message" textarea
+      button "Send Message" -> submitContact
+    }
+  }
+
+  footer {
+    text "Origin"
+    link "GitHub" -> "https://github.com"
+    link "Documentation" -> "/docs"
+  }
+}
