@@ -259,4 +259,4 @@ See CONTRIBUTING.md for guidelines.
 License
 MIT — see LICENSE for details.
 
-Eso es el README completo. Cópialo tal cual y pégalo en tu archivo ``README.md`. Se va a ver limpio y profesional en GitHub.
+"Reminder That This Is A Solo Project By Students. Expect More Than 5 Bugs If possible. Next Update: Multi-Paging And Rutes."
