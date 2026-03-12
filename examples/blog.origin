@@ -1,0 +1,45 @@
+page Blog {
+
+  title "Blog — Origin"
+  description "Thoughts on modern web development."
+
+  nav {
+    link "Home" -> "/"
+    link "Blog" -> "/blog"
+    link "Docs" -> "/docs"
+  }
+
+  section hero {
+    style {
+      background "primary"
+      align "center"
+      padding "medium"
+    } heading "Engineering Blog"
+    text "Technical articles from the Origin team."
+  }
+
+  section posts {
+    style {
+      padding "large"
+    }
+
+    grid 2 {
+      card {
+        heading "Introducing Origin Sense"
+        text "How our semantic intent engine brings automatic optimization to web development."
+        link "Read more" -> "/blog/origin-sense"
+      } card {
+        heading "Building a Compiler in JavaScript"
+        text "A deep dive into the lexer, parser, and code generation pipeline."
+        link "Read more" -> "/blog/compiler"
+      }
+      card {
+        heading "Why We Built Origin"
+        text "The problems with modern web tooling and our approach to solving them."
+        link "Read more" -> "/blog/why-origin"
+      }
+      card {
+        heading "Origin v0.2 Release Notes"
+        text "Component support, improved error messages, and performance gains."
+        link "Read more" -> "/blog/v02"
+      }
