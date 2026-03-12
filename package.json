@@ -1,0 +1,21 @@
+{
+  "name": "origin-lang",
+  "version": "0.1.0",
+  "description": "A modern language that compiles to HTML, CSS, and JavaScript.",
+  "main": "compiler/index.js",
+  "bin": {
+    "origin": "./cli/index.js"
+  },
+  "scripts": {
+    "test": "node tests/run.js",
+    "build": "node cli/index.js build",
+    "serve": "node cli/index.js serve"
+  },
+  "keywords": ["language", "compiler", "html", "css", "web", "origin"],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}
