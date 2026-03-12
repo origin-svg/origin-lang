@@ -1,18 +1,36 @@
-Origin
-An open-source language that compiles to HTML, CSS, and JavaScript.
+# Origin
 
-What is Origin
-Origin is a compiler toolchain that lets you build production-ready websites using a single declarative language called Origin Script. The Origin Engine compiles your code into optimized, accessible, and performant web pages with zero configuration and zero dependencies.
-Origin is fully open source under the MIT license. Anyone can use it, modify it, contribute to it, and build on top of it.
+**An open-source language that compiles to HTML, CSS, and JavaScript.**
 
-The Problem
-Modern web development requires juggling multiple languages and tools simultaneously. HTML handles structure, CSS handles presentation, JavaScript handles behavior, and on top of that developers must configure bundlers, preprocessors, frameworks, and package managers.
-Origin replaces that entire workflow with a single language and a single command.
+Origin is a compiler toolchain that lets you build production-ready websites using a single declarative language called **Origin Script**. The **Origin Engine** compiles your code into optimized, accessible, and performant web pages with zero configuration and zero dependencies.
 
-How It Works
-You write Origin Script:
+Fully open source under the MIT license.
+
+---
+
+## Quick Start
+
+````bash
+git clone https://github.com/origin-lang/origin.git
+cd origin
+npm link
+origin create my-site
+cd my-site
+origin build
+origin serve
+
+Your site is live at http://localhost:3000.
+
+Example
 originDownloadCopy codepage Home {
   title "My Website"
+  description "Built with Origin."
+
+  nav {
+    link "Home" -> "/"
+    link "About" -> "/about"
+    button "Sign Up" -> "/signup"
+  }
 
   section hero {
     style {
@@ -47,21 +65,7 @@ originDownloadCopy codepage Home {
     text "Built with Origin"
   }
 }
-The Origin Engine compiles it into production-ready HTML, CSS, and JavaScript.
-
-Quick Start
-Install
-bashDownloadCopy codegit clone https://github.com/origin-lang/origin.git
-cd origin
-npm link
-Create a Project
-bashDownloadCopy codeorigin create my-site
-cd my-site
-Build
-bashDownloadCopy codeorigin build
-Preview
-bashDownloadCopy codeorigin serve
-Starts a local server at http://localhost:3000.
+One file. One command. Full website.
 
 Language Reference
 Pages
@@ -69,7 +73,7 @@ originDownloadCopy codepage Home {
   title "My Website"
   description "A site built with Origin."
 }
-Sections
+Sections with Styling
 originDownloadCopy codesection hero {
   style {
     background "dark"
@@ -77,10 +81,11 @@ originDownloadCopy codesection hero {
     padding "large"
   }
   heading "Hello, World"
+  text "Welcome to my site."
 }
-Background tokens: dark, light, primary, secondary, accent, success, warning, danger, muted, neutral.
-Padding tokens: none, small, medium, large, xlarge.
-Elements
+Background tokens: dark light primary secondary accent success warning danger muted neutral
+Padding tokens: none small medium large xlarge
+All Elements
 originDownloadCopy codeheading "Title"
 text "Paragraph content."
 button "Click Me" -> "#target"
@@ -90,20 +95,25 @@ link "Label" -> "https://example.com"
 icon "search"
 divider
 spacer "large"
+list {
+  item "First entry"
+  item "Second entry"
+}
 Navigation
 originDownloadCopy codenav {
   link "Home" -> "/"
   link "About" -> "/about"
   button "Sign Up" -> "/signup"
 }
-Generates a responsive navbar with mobile toggle, keyboard accessibility, and ARIA attributes.
+Generates a responsive navbar with mobile hamburger toggle, keyboard accessibility, and ARIA attributes.
 Grids and Cards
 originDownloadCopy codegrid 3 {
   card {
     heading "Feature"
-    text "Description."
+    text "Description here."
   }
 }
+Compiles to CSS Grid with hover effects and responsive reflow on mobile.
 Forms
 originDownloadCopy codeform contact {
   input name "Your name"
@@ -120,12 +130,7 @@ originDownloadCopy codemodal signup {
     button "Register" -> register
   }
 }
-Lists
-originDownloadCopy codelist {
-  item "First entry"
-  item "Second entry"
-  item "Third entry"
-}
+Includes overlay, close button, escape-key dismissal, ARIA dialog attributes, and scroll locking.
 API Integration
 originDownloadCopy codeapi users -> "https://api.example.com/users"
 
@@ -140,51 +145,44 @@ originDownloadCopy codestate counter 0
 section display {
   text "Current count:" -> counter
 }
-Access state in the browser via window.originState.
+Access and modify state in the browser via window.originState.
 Comments
 originDownloadCopy code// Single-line comment
-
-/* Multi-line
-   comment */
-Footer
-originDownloadCopy codefooter {
-  text "Copyright 2026"
-  link "GitHub" -> "https://github.com"
-}
-External links automatically receive target="_blank" and rel="noopener noreferrer".
-
-Architecture
-The Origin Engine follows a four-stage compiler pipeline.
-Stage 1 — Lexer. Tokenizes source code into keywords, identifiers, strings, numbers, and symbols. Handles comments and escape sequences. Tracks line and column numbers for error reporting.
-Stage 2 — Parser. Recursive descent parser that consumes tokens and produces an Abstract Syntax Tree. Each language construct has a dedicated parsing method with clear error messages.
-Stage 3 — Origin Sense. Semantic analysis layer that enriches the AST with accessibility attributes, SEO metadata, performance hints, and security measures. This is what makes Origin different from a template engine.
-Stage 4 — Generators. Three generators convert the enriched AST into HTML, CSS, and JavaScript. The JS generator is conditional and only emits a file when interactive features are present.
-.origin file -> Lexer -> Parser -> Sense -> Generator -> .html + .css + .js
-
+/* Multi-line comment */
 
 Origin Sense — Semantic Intent Engine
-Origin Sense is a semantic analysis layer built into the compiler that understands what you are building and applies optimizations automatically.
-When you write section hero, Sense recognizes the word "hero" and applies role="banner" and an appropriate aria-label. When you write image "team-photo.jpg", Sense infers alt="Team Photo" from the filename and adds loading="lazy". When you write a form, Sense applies novalidate for custom validation control.
-Accessibility: ARIA roles and labels, heading hierarchy correction, alt text inference, keyboard navigation attributes, focus management for modals, screen reader utility classes.
-SEO: Title inference from page names, meta description generation from content, Open Graph tags, semantic HTML structure.
-Performance: Image lazy loading and async decoding, conditional JS emission, minimal CSS output with only used component styles.
-Security: External links get rel="noopener noreferrer". Forms use novalidate for custom validation.
-Section intent detection:
+Origin Sense is the feature that differentiates Origin from every other web toolchain. It is a semantic analysis layer built into the compiler that understands what you are building and applies intelligent optimizations automatically.
+What It Does
+CategoryAutomatic BehaviorAccessibilityARIA roles from section names, heading hierarchy, alt text inference, focus managementSEOTitle inference, meta descriptions, Open Graph tags, semantic HTMLPerformanceImage lazy loading, async decoding, conditional JS emission, minimal CSSSecurityExternal links get rel="noopener noreferrer", forms use novalidate
+Section Intent Detection
+Section NameApplied Role & Labelherorole="banner"aboutaria-label="About section"featuresaria-label="Features section"pricingaria-label="Pricing section"contactaria-label="Contact section"faqaria-label="Frequently asked questions"testimonialsaria-label="Testimonials"teamaria-label="Team members"galleryaria-label="Image gallery"servicesaria-label="Our services"blogaria-label="Blog posts"portfolioaria-label="Portfolio"
+Sense Reports
+Every build produces a report in the terminal:
+Warnings for index:
+  - Page "Home": missing title. Inferred "Home".
+  - Image "photo.jpg": missing alt text. Inferred "Photo".
+Build complete: 1 file(s) compiled, 2 warning(s).
 
-* hero -> role="banner"
-* about -> aria-label="About section"
-* features -> aria-label="Features section"
-* pricing -> aria-label="Pricing section"
-* contact -> aria-label="Contact section"
-* faq -> aria-label="Frequently asked questions"
-* testimonials -> aria-label="Testimonials"
-* team -> aria-label="Team members"
-* gallery -> aria-label="Image gallery"
-* services -> aria-label="Our services"
-* blog -> aria-label="Blog posts"
-* portfolio -> aria-label="Portfolio"
 
-Every build produces a report with warnings and enhancements displayed in the terminal.
+Architecture
+.origin file
+    │
+    ▼
+  Lexer ────► Token Stream
+    │
+    ▼
+  Parser ───► AST
+    │
+    ▼
+  Sense ────► Enriched AST + Report
+    │
+    ▼
+  Generator ► index.html + index.css + index.js (conditional)
+
+Lexer — Tokenizes source code. Handles comments, escape sequences, tracks line/column numbers.
+Parser — Recursive descent parser. Produces an Abstract Syntax Tree with clear error messages.
+Sense — Semantic analysis. Enriches the AST with accessibility, SEO, performance, and security metadata.
+Generators — Three generators produce HTML, CSS, and JS. The JS generator only emits a file when interactive features are present. A static page produces zero JavaScript.
 
 Configuration
 jsonDownloadCopy code{
@@ -202,64 +200,63 @@ jsonDownloadCopy code{
 }
 
 CLI Commands
-origin create <name>     Create a new project
-origin build             Compile .origin files to dist/
-origin serve             Build and start local server on port 3000
-origin help              Show available commands
-
+CommandDescriptionorigin create <name>Create a new project with starter filesorigin buildCompile all .origin files to dist/origin serveBuild and start local server on port 3000origin helpShow available commands
 
 Project Structure
 origin/
-  package.json
-  LICENSE
-  README.md
-  CONTRIBUTING.md
-  cli/
-    index.js
-  compiler/
-    index.js
-    lexer/
-      index.js
-    parser/
-      index.js
-    ast/
-      nodes.js
-    generator/
-      index.js
-      html.js
-      css.js
-      js.js
-    sense/
-      index.js
-  examples/
-    landing.origin
-    blog.origin
-    api-dashboard.origin
-  tests/
-    run.js
+├── package.json
+├── LICENSE
+├── README.md
+├── CONTRIBUTING.md
+├── cli/
+│   └── index.js
+├── compiler/
+│   ├── index.js
+│   ├── lexer/
+│   │   └── index.js
+│   ├── parser/
+│   │   └── index.js
+│   ├── ast/
+│   │   └── nodes.js
+│   ├── generator/
+│   │   ├── index.js
+│   │   ├── html.js
+│   │   ├── css.js
+│   │   └── js.js
+│   └── sense/
+│       └── index.js
+├── examples/
+│   ├── landing.origin
+│   ├── blog.origin
+│   └── api-dashboard.origin
+└── tests/
+    └── run.js
 
 
 Roadmap
-v0.1 — Foundation: Core lexer, parser, and HTML generation.
-v0.2 — Components: Grids, cards, forms, lists, modals, CSS generation.
-v0.3 — Interactivity: JS generation, navigation, modals, forms, state, API fetch.
-v0.5 — Sense: Full semantic analysis engine.
-v1.0 — Stable Release: Production-ready compiler and complete documentation.
-Future: Custom theming, multi-page routing, server-side rendering, plugin architecture, VS Code extension.
+VersionMilestonev0.1Core lexer, parser, HTML generationv0.2Grids, cards, forms, lists, modals, CSS generationv0.3JS generation, navigation, modals, forms, state, API fetchv0.5Full Origin Sense semantic analysis enginev1.0Production-ready compiler, complete docs and test suiteFutureCustom theming, multi-page routing, SSR, plugins, VS Code extension
 
 FAQ
-Is Origin a framework? No. Origin is a compiled language. It produces static HTML, CSS, and JavaScript files.
-Does Origin replace React/Vue/Svelte? Origin targets websites, landing pages, documentation, and content-driven applications. For complex single-page applications with heavy client-side state, a framework may be more appropriate.
-Can I use custom CSS or JavaScript? Yes. The generated output is standard and can be extended. JavaScript dispatches custom events (origin:form-submit, origin:action, origin:fetch-complete) that you can listen for in your own scripts.
-Does Origin have dependencies? The compiler has zero runtime dependencies. It runs on Node.js using only built-in modules.
-How fast is compilation? A typical page compiles in under 10 milliseconds.
-Can I deploy the output anywhere? Yes. The output is static files that work on any hosting provider, CDN, or local server.
+Is Origin a framework?
+No. Origin is a compiled language. It produces static HTML, CSS, and JavaScript files.
+Does Origin replace React/Vue/Svelte?
+Origin targets websites, landing pages, and content-driven applications. For complex SPAs with heavy client-side state, a framework may be more appropriate.
+Can I use custom CSS or JavaScript?
+Yes. The generated output is standard and can be extended. JavaScript dispatches custom events (origin:form-submit, origin:action, origin:fetch-complete) that you can listen for in your own scripts.
+Does Origin have dependencies?
+Zero runtime dependencies. It runs on Node.js using only built-in modules.
+How fast is compilation?
+A typical page compiles in under 10 milliseconds.
+Can I deploy the output anywhere?
+Yes. Static files that work on any hosting provider, CDN, or local server.
 
 Running Tests
 bashDownloadCopy codenpm test
 
-License
-MIT. See LICENSE file.
-
 Contributing
-See CONTRIBUTING.md for guidelines on how to contribute to Origin.
+See CONTRIBUTING.md for guidelines.
+
+License
+MIT — see LICENSE for details.
+
+Eso es el README completo. Cópialo tal cual y pégalo en tu archivo ``README.md`. Se va a ver limpio y profesional en GitHub.
