@@ -11,10 +11,14 @@ const HELP = `
   Origin CLI v0.1.0
 
   Usage:
-    origin create <name>     Create a new project
-    origin build             Compile .origin files to dist/
-    origin serve             Build and start local server
-    origin help              Show this message
+    origin create <name>         Create a new project
+    origin build [path]          Compile .origin files to dist/
+    origin serve                 Build and start local server
+    origin help                  Show this message
+
+  Examples:
+    origin build                 Build from src/ (default)
+    origin build test/index.origin   Build specific file
 `;
 
 function create(name) {
@@ -129,21 +133,44 @@ function findOriginFiles(dir) {
   return results;
 }
 
-function build() {
+function build(targetPath) {
   const config = loadConfig();
-  const srcDir = path.resolve(process.cwd(), path.dirname(config.entry));
   const outDir = path.resolve(process.cwd(), config.output);
 
   if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir, { recursive: true });
   }
 
-  const files = findOriginFiles(srcDir);
+  let files = [];
+
+  if (targetPath) {
+    const resolved = path.resolve(process.cwd(), targetPath);
+
+    if (!fs.existsSync(resolved)) {
+      console.error(`Error: "${targetPath}" not found.`);
+      process.exit(1);
+    }
+
+    const stat = fs.statSync(resolved);
+    if (stat.isDirectory()) {
+      files = findOriginFiles(resolved);
+    } else if (resolved.endsWith(".origin")) {
+      files = [resolved];
+    } else {
+      console.error(`Error: "${targetPath}" is not a .origin file.`);
+      process.exit(1);
+    }
+  } else {
+    const srcDir = path.resolve(process.cwd(), path.dirname(config.entry));
+    files = findOriginFiles(srcDir);
+  }
 
   if (files.length === 0) {
     console.error("No .origin files found.");
     process.exit(1);
   }
+
+  console.log(`Found ${files.length} .origin file(s). Compiling...\n`);
 
   const compiler = new OriginCompiler(config.sense || {});
   let compiled = 0;
@@ -169,19 +196,20 @@ function build() {
       compiled++;
       warnings += result.report ? result.report.warnings.length : 0;
 
+      console.log(`  ✔ ${path.relative(process.cwd(), file)} → dist/${baseName}.html`);
+
       if (result.report && result.report.warnings.length > 0) {
-        console.log(`  Warnings for ${baseName}:`);
         for (const w of result.report.warnings) {
-          console.log(`    - ${w}`);
+          console.log(`    ⚠ ${w}`);
         }
       }
     } catch (err) {
-      console.error(`Error compiling ${file}: ${err.message}`);
+      console.error(`  ✖ Error compiling ${file}: ${err.message}`);
     }
   }
 
   console.log(
-    `Build complete: ${compiled} file(s) compiled, ${warnings} warning(s).`
+    `\nBuild complete: ${compiled} file(s) compiled, ${warnings} warning(s).`
   );
 }
 
@@ -221,7 +249,7 @@ function serve() {
   });
 
   server.listen(port, () => {
-    console.log(`Origin server running at http://localhost:${port}`);
+    console.log(`\nOrigin server running at http://localhost:${port}`);
   });
 }
 
@@ -230,7 +258,7 @@ switch (command) {
     create(args[1]);
     break;
   case "build":
-    build();
+    build(args[1]);
     break;
   case "serve":
     serve();
